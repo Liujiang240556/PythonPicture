@@ -1,0 +1,530 @@
+from PyQt5 import QtWidgets, QtGui
+import sys
+from second import Ui_Form   # 导入生成second.py里生成的类，也就是由Qtdesigner生成的py文件
+import random
+import scipy.misc
+import scipy.signal
+import scipy.ndimage
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+import matplotlib.cm as cm
+import scipy.signal as signal
+from PIL.ImageQt import ImageQt
+
+
+from PyQt5.QtWidgets import QFileDialog
+#定义mysecond类，继承自QWidget类和自己的UI_From类
+class  mysecond(QtWidgets.QWidget,Ui_Form):
+    # 将图片路径定义为全局变量，这样每一个槽函数都可以用
+    imgName=""
+    #构造函数，每次创建对象时都先调用这个
+    def __init__(self):
+
+        #调用父类即QWidget,Ui_Form的构造函数
+        super(mysecond, self).__init__()
+
+        #绑定UI界面
+        self.setupUi(self)
+
+        #绑定信号到槽函数
+
+        self.duru.clicked.connect(self.openimage)
+        self.erzhitu22.clicked.connect(self.erzhitu)
+        self.huidu22.clicked.connect(self.huidu)
+        self.jiazao22.clicked.connect(self.jiazao)
+        self.quzhao.clicked.connect(self.quzao)
+        self.gaosizaosheng.clicked.connect(self.gaosizaoshen)
+        self.bianyuan.clicked.connect(self.bianyuantiqi)
+        self.horizontalSlider_2.valueChanged['int'].connect(self.jiaoyanzaosheng)
+        self.horizontalSlider.valueChanged['int'].connect(self.slierzhitu)
+        self.tuichu.clicked.connect(self.close)
+        self.lineEdit_2.textChanged['QString'].connect(self.shuruerzhitu)
+        self.lineEdit_3.textChanged['QString'].connect(self.shurubeishu)
+        self.lineEdit_4.textChanged['QString'].connect(self.shurujiaodu)
+
+        self.lineEdit.textChanged['QString'].connect(self.onChanged)
+
+        self.comboBox.activated['QString'].connect(self.onActivated)
+
+
+    # 定义槽函数
+
+    def shurubeishu(self,text):
+        global imgName
+        path = imgName
+        print("ssss")
+        if text == '':
+            im = Image.open(path)
+            im_resized2 = im.resize((800, 800))
+            im_resized2.save('D:\\huidu.png')
+            png = QtGui.QPixmap('D:\\huidu.png')
+            self.label_3.setPixmap(png)
+        else:
+            num = int(text)
+            im = Image.open(path)
+            im_resized2 = im.resize((num, num))
+            im_resized2.save('D:\\huidu.png')
+            png = QtGui.QPixmap('D:\\huidu.png')
+            self.label_3.setPixmap(png)
+    def shurujiaodu(self,text):
+        global imgName
+        path = imgName
+        if text=='':
+           im = Image.open(path)
+           # 指定逆时针旋转的角度
+           im_rotate = im.rotate(45)
+           im_rotate.save('D:\\huidu.png')
+           png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+           self.label_3.setPixmap(png)
+        else :
+            print("ssss")
+            num=int(text)
+            im = Image.open(path)
+            # 指定逆时针旋转的角度
+            im_rotate = im.rotate(num)
+            im_rotate.save('D:\\huidu.png')
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+    def shuruerzhitu(self,text):
+        global imgName
+        path = imgName
+        print("ssss")
+        if text=='':
+            img = np.array(Image.open(path).convert('L'))
+
+            rows, cols = img.shape
+            for i in range(rows):
+                for j in range(cols):
+                    if (img[i, j] <= 80):
+                        img[i, j] = 0
+                    else:
+                        img[i, j] = 1
+            plt.imshow(img, cmap='gray')
+            plt.savefig('D:\\huidu.png', transparent=True)
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+        else:
+            num = int(text)
+            img = np.array(Image.open(path).convert('L'))
+
+            rows, cols = img.shape
+            for i in range(rows):
+                for j in range(cols):
+                    if (img[i, j] <= num):
+                        img[i, j] = 0
+                    else:
+                        img[i, j] = 1
+            plt.imshow(img, cmap='gray')
+            plt.savefig('D:\\huidu.png', transparent=True)
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+
+
+    def onActivated(self, text):
+         global imgName
+         path = imgName
+         if text=='放大':
+             print("wo shi comboBox de text")
+             im = Image.open(path)
+             im_resized2 = im.resize((800, 800))
+             im_resized2.save('D:\\huidu.png')
+             png = QtGui.QPixmap('D:\\huidu.png')
+             self.label_3.setPixmap(png)
+         elif text=='缩小':
+             print("wo shi comboBox de text")
+             im = Image.open(path)
+             im_resized2 = im.resize((100, 100))
+             im_resized2.save('D:\\huidu.png')
+             png = QtGui.QPixmap('D:\\huidu.png')
+             self.label_3.setPixmap(png)
+         elif text =='镜像':
+             im = Image.open(path)
+             rorate3 = im.transpose((Image.FLIP_LEFT_RIGHT))
+             rorate3.save('D:\\huidu.png')
+             png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+             self.label_3.setPixmap(png)
+
+         else :
+             im = Image.open(path)
+             rorate3 = im.transpose(Image.FLIP_TOP_BOTTOM)
+             rorate3.save('D:\\huidu.png')
+             png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+             self.label_3.setPixmap(png)
+
+             print("kkkkk")
+
+
+    def onChanged(self,text):
+        global imgName
+        path = imgName
+        if text=='':
+            img = np.array(Image.open(path))
+            # 随机生成5000个椒盐
+            rows, cols, dims = img.shape
+            for i in range(0):
+                x = np.random.randint(0, rows)
+                y = np.random.randint(0, cols)
+                img[x, y, :] = 255
+
+            plt.axis('off')  # 不显示坐标轴
+            plt.imshow(img)
+            plt.savefig('D:\\huidu.png', transparent=True)
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+        else:
+            num=int(text)
+            img = np.array(Image.open(path))
+            # 随机生成5000个椒盐
+            rows, cols, dims = img.shape
+            for i in range(num):
+                x = np.random.randint(0, rows)
+                y = np.random.randint(0, cols)
+                img[x, y, :] = 255
+
+            plt.axis('off')  # 不显示坐标轴
+            plt.imshow(img)
+            plt.savefig('D:\\huidu.png', transparent=True)
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+
+
+
+    def slierzhitu(self,value):
+        global imgName
+        path = imgName
+        if value == 0:
+            # 打开图片变转换成数组
+            img = np.array(Image.open(path).convert('L'))
+
+            rows, cols = img.shape
+            for i in range(rows):
+                for j in range(cols):
+                    if (img[i, j] <= 40):
+                        img[i, j] = 0
+                    else:
+                        img[i, j] = 1
+            plt.imshow(img, cmap='gray')
+            plt.savefig('D:\\huidu.png', transparent=True)
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+        elif value > 0 and value <= 50:
+            # 打开图片变转换成数组
+            img = np.array(Image.open(path).convert('L'))
+
+            rows, cols = img.shape
+            for i in range(rows):
+                for j in range(cols):
+                    if (img[i, j] <= 80):
+                        img[i, j] = 0
+                    else:
+                        img[i, j] = 1
+            plt.imshow(img, cmap='gray')
+            plt.savefig('D:\\huidu.png', transparent=True)
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+        else:
+            # 打开图片变转换成数组
+            img = np.array(Image.open(path).convert('L'))
+
+            rows, cols = img.shape
+            for i in range(rows):
+                for j in range(cols):
+                    if (img[i, j] <= 128):
+                        img[i, j] = 0
+                    else:
+                        img[i, j] = 1
+            plt.imshow(img, cmap='gray')
+            plt.savefig('D:\\huidu.png', transparent=True)
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+
+    def jiaoyanzaosheng(self,value):
+        global imgName
+        path = imgName
+        if value == 0:
+
+            img = np.array(Image.open(path))
+            # 随机生成5000个椒盐
+            rows, cols, dims = img.shape
+            for i in range(1000):
+                x = np.random.randint(0, rows)
+                y = np.random.randint(0, cols)
+                img[x, y, :] = 255
+
+            plt.axis('off')  # 不显示坐标轴
+            plt.imshow(img)
+            plt.savefig('D:\\huidu.png')
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+        elif value ==50:
+
+            img = np.array(Image.open(path))
+            # 随机生成10000个椒盐
+            rows, cols, dims = img.shape
+            for i in range(5000):
+                x = np.random.randint(0, rows)
+                y = np.random.randint(0, cols)
+                img[x, y, :] = 255
+
+            plt.axis('off')  # 不显示坐标轴
+            plt.imshow(img)
+            plt.savefig('D:\\huidu.png')
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+
+        else:
+
+            img = np.array(Image.open(path))
+            # 随机生成300000个椒盐
+            rows, cols, dims = img.shape
+            for i in range(10000):
+                x = np.random.randint(0, rows)
+                y = np.random.randint(0, cols)
+                img[x, y, :] = 255
+
+            plt.axis('off')  # 不显示坐标轴
+            plt.imshow(img)
+            plt.savefig('D:\\huidu.png')
+
+            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+            self.label_3.setPixmap(png)
+
+    def huidu(self):
+        #此处引用全局变量--图片路径，需要在前面加global表示引用全局变量
+        global imgName
+        #通过convert（‘L’）的方法转换成灰度图像
+        # im = Image.open(imgName).convert('L')
+        # im = ImageQt(im)
+        # png = QtGui.QPixmap.fromImage(im).scaled(self.label_3.width(), self.label_3.height())
+
+        img = Image.open(imgName)
+        img = np.array(img)
+        if img.ndim == 3:
+            img = img[:, :, 0]
+        plt.imshow(img, cmap='gray')
+        plt.axis("off")
+        plt.savefig('D:\\huidu.png')
+
+        png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+
+        self.label_3.setPixmap(png)
+
+    def openimage(self):
+        # 打开文件路径
+        # 设置文件扩展名过滤,注意用双分号间隔
+        global imgName
+        imgName, img_type = QFileDialog.getOpenFileName(self, "打开图片", ""," *.jpg;;*.png;;*.jpeg;;*.bmp;;All Files (*)")
+        # 利用qlabel显示图片
+        png = QtGui.QPixmap(imgName).scaled(self.label.width(), self.label.height())
+        self.label.setPixmap(png)
+
+    def erzhitu(self):
+        #此处引用全局变量--图片路径，需要在前面加global表示引用全局变量
+        global imgName
+        path = imgName
+        #打开图片变转换成数组
+        img = np.array(Image.open(path).convert('L'))
+
+        rows, cols = img.shape
+        for i in range(rows):
+            for j in range(cols):
+                if (img[i, j] <= 128):
+                    img[i, j] = 0
+                else:
+                    img[i, j] = 1
+
+        plt.axis("off")
+        plt.imshow(img, cmap='gray')
+        # im = ImageQt(img)
+        # png = QtGui.QPixmap.fromImage(im).scaled(self.label_3.width(), self.label_3.height())
+        plt.savefig('D:\\huidu.png')
+        png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+        self.label_3.setPixmap(png)
+
+    def jiazao(self):
+        global imgName
+        path = imgName
+        img = np.array(Image.open(path))
+        # 随机生成30000个椒盐
+        rows, cols, dims = img.shape
+        for i in range(5000):
+            x = np.random.randint(0, rows)
+            y = np.random.randint(0, cols)
+            img[x, y, :] = 255
+
+        plt.axis('off')#不显示坐标轴
+        plt.imshow(img)
+        plt.savefig('D:\\huidu.png')
+        png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+        self.label_3.setPixmap(png)
+
+    def quzao(self):
+        global imgName
+        path = imgName
+        # 中值滤波器
+        def medium_filter(im, x, y, step):
+            sum_s = []
+            for k in range(-int(step / 2), int(step / 2) + 1):
+                for m in range(-int(step / 2), int(step / 2) + 1):
+                    sum_s.append(im[x + k][y + m])
+            sum_s.sort()
+            return sum_s[(int(step * step / 2) + 1)]
+        # 均值滤波器
+        def mean_filter(im, x, y, step):
+            sum_s = 0
+            for k in range(-int(step / 2), int(step / 2) + 1):
+                for m in range(-int(step / 2), int(step / 2) + 1):
+                    sum_s += im[x + k][y + m] / (step * step)
+            return sum_s
+        img = np.array(Image.open(path))
+        rows, cols, dims = img.shape
+        R = np.mat(img[:, :, 0])
+        G = np.mat(img[:, :, 1])
+        B = np.mat(img[:, :, 2])
+        snr = 0.9
+
+        Grey_sp = R * 0.299 + G * 0.587 + B * 0.114
+
+        Grey_gs = R * 0.299 + G * 0.587 + B * 0.114
+
+        noise_num = int((1 - snr) * rows * cols)
+
+        for i in range(noise_num):
+            rand_x = random.randint(0, rows - 1)
+            rand_y = random.randint(0, cols - 1)
+            if random.randint(0, 1) == 0:
+                Grey_sp[rand_x, rand_y] = 0
+            else:
+                Grey_sp[rand_x, rand_y] = 255
+
+        Grey_gs = Grey_gs + np.random.normal(0, 48, Grey_gs.shape)
+        Grey_gs = Grey_gs - np.full(Grey_gs.shape, np.min(Grey_gs))
+        Grey_gs = Grey_gs * 255 / np.max(Grey_gs)
+        Grey_gs = Grey_gs.astype(np.uint8)
+
+        # 中值滤波
+        Grey_sp_mf = scipy.ndimage.median_filter(Grey_sp, (10, 10))
+        plt.imshow(Grey_sp_mf, cmap='gray')
+        plt.savefig('D:\\huidu.png')
+        png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+        self.label_3.setPixmap(png)
+
+
+    def gaosizaoshen(self):
+        global imgName
+        path = imgName
+        # 中值滤波器
+        def medium_filter(im, x, y, step):
+            sum_s = []
+            for k in range(-int(step / 2), int(step / 2) + 1):
+                for m in range(-int(step / 2), int(step / 2) + 1):
+                    sum_s.append(im[x + k][y + m])
+            sum_s.sort()
+            return sum_s[(int(step * step / 2) + 1)]
+
+        # 均值滤波器
+        def mean_filter(im, x, y, step):
+            sum_s = 0
+            for k in range(-int(step / 2), int(step / 2) + 1):
+                for m in range(-int(step / 2), int(step / 2) + 1):
+                    sum_s += im[x + k][y + m] / (step * step)
+            return sum_s
+
+        # 二维转换
+        def convert_2d(r):
+            n = 3
+            # 3*3 滤波器, 每个系数都是 1/9
+            window = np.ones((n, n)) / n ** 2
+            # 使用滤波器卷积图像
+            # mode = same 表示输出尺寸等于输入尺寸
+            # boundary 表示采用对称边界条件处理图像边缘
+            s = scipy.signal.convolve2d(r, window, mode='same', boundary='symm')
+            return s.astype(np.uint8)
+
+        img = np.array(Image.open(path))
+        rows, cols, dims = img.shape
+        R = np.mat(img[:, :, 0])
+        G = np.mat(img[:, :, 1])
+        B = np.mat(img[:, :, 2])
+
+        Grey_sp = R * 0.299 + G * 0.587 + B * 0.114
+
+        Grey_gs = R * 0.299 + G * 0.587 + B * 0.114
+
+        snr = 0.9
+        noise_num = int((1 - snr) * rows * cols)
+
+        for i in range(noise_num):
+            rand_x = random.randint(0, rows - 1)
+            rand_y = random.randint(0, cols - 1)
+            if random.randint(0, 1) == 0:
+                Grey_sp[rand_x, rand_y] = 0
+            else:
+                Grey_sp[rand_x, rand_y] = 255
+
+        Grey_gs = Grey_gs + np.random.normal(0, 48, Grey_gs.shape)
+        Grey_gs = Grey_gs - np.full(Grey_gs.shape, np.min(Grey_gs))
+        Grey_gs = Grey_gs * 255 / np.max(Grey_gs)
+        Grey_gs = Grey_gs.astype(np.uint8)
+        plt.imshow(Grey_gs, cmap='gray')
+
+        plt.savefig('D:\\huidu.png')
+        png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+        self.label_3.setPixmap(png)
+
+
+    def bianyuantiqi(self):
+        global imgName
+        path = imgName
+        # 生成高斯算子的函数
+        def func(x, y, sigma=1):
+            return 100 * (1 / (2 * np.pi * sigma)) * np.exp(-((x - 2) ** 2 + (y - 2) ** 2) / (2.0 * sigma ** 2))
+
+        # 生成标准差为5的5*5高斯算子
+        suanzi1 = np.fromfunction(func, (5, 5), sigma=5)
+
+        # Laplace扩展算子
+        suanzi2 = np.array([[1, 1, 1],
+                            [1, -8, 1],
+                            [1, 1, 1]])
+
+        # 打开图像并转化成灰度图像
+        image = Image.open(path).convert("L")
+        image_array = np.array(image)
+
+        # 利用生成的高斯算子与原图像进行卷积对图像进行平滑处理
+        image_blur = signal.convolve2d(image_array, suanzi1, mode="same")
+
+        # 对平滑后的图像进行边缘检测
+        image2 = signal.convolve2d(image_blur, suanzi2, mode="same")
+
+        # 结果转化到0-255
+        image2 = (image2 / float(image2.max())) * 255
+
+        # 将大于灰度平均值的灰度值变成255（白色），便于观察边缘
+        image2[image2 > image2.mean()] = 255
+
+        # 显示图像
+
+        plt.imshow(image2, cmap=cm.gray)
+        plt.axis("off")
+
+        plt.savefig('D:\\huidu.png', transparent=True)
+        png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
+        self.label_3.setPixmap(png)
+
+if __name__ == '__main__':
+    app = QtWidgets.QApplication(sys.argv)
+    window = mysecond()
+    window.show()
+    sys.exit(app.exec_())
