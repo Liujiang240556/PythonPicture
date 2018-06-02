@@ -12,6 +12,7 @@ import matplotlib.cm as cm
 import scipy.signal as signal
 from PIL.ImageQt import ImageQt
 
+#采用PyQT5做的图形界面
 
 from PyQt5.QtWidgets import QFileDialog
 #定义mysecond类，继承自QWidget类和自己的UI_From类
