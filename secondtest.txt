@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtGui
 import sys
-from second import Ui_Form   # µ¼ÈëÉú³Ésecond.pyÀïÉú³ÉµÄÀà£¬Ò²¾ÍÊÇÓÉQtdesignerÉú³ÉµÄpyÎÄ¼ş
+from second import Ui_Form   # å¯¼å…¥ç”Ÿæˆsecond.pyé‡Œç”Ÿæˆçš„ç±»ï¼Œä¹Ÿå°±æ˜¯ç”±Qtdesignerç”Ÿæˆçš„pyæ–‡ä»¶
+
 import random
 import scipy.misc
 import scipy.signal
@@ -12,23 +13,23 @@ import matplotlib.cm as cm
 import scipy.signal as signal
 from PIL.ImageQt import ImageQt
 
-#²ÉÓÃPyQT5×öµÄÍ¼ĞÎ½çÃæ
+#é‡‡ç”¨PyQT5åšçš„å›¾å½¢ç•Œé¢
 
 from PyQt5.QtWidgets import QFileDialog
-#¶¨ÒåmysecondÀà£¬¼Ì³Ğ×ÔQWidgetÀàºÍ×Ô¼ºµÄUI_FromÀà
+#å®šä¹‰mysecondç±»ï¼Œç»§æ‰¿è‡ªQWidgetç±»å’Œè‡ªå·±çš„UI_Fromç±»
 class  mysecond(QtWidgets.QWidget,Ui_Form):
-    # ½«Í¼Æ¬Â·¾¶¶¨ÒåÎªÈ«¾Ö±äÁ¿£¬ÕâÑùÃ¿Ò»¸ö²Ûº¯Êı¶¼¿ÉÒÔÓÃ
+    # å°†å›¾ç‰‡è·¯å¾„å®šä¹‰ä¸ºå…¨å±€å˜é‡ï¼Œè¿™æ ·æ¯ä¸€ä¸ªæ§½å‡½æ•°éƒ½å¯ä»¥ç”¨
     imgName=""
-    #¹¹Ôìº¯Êı£¬Ã¿´Î´´½¨¶ÔÏóÊ±¶¼ÏÈµ÷ÓÃÕâ¸ö
+    #æ„é€ å‡½æ•°ï¼Œæ¯æ¬¡åˆ›å»ºå¯¹è±¡æ—¶éƒ½å…ˆè°ƒç”¨è¿™ä¸ª
     def __init__(self):
 
-        #µ÷ÓÃ¸¸Àà¼´QWidget,Ui_FormµÄ¹¹Ôìº¯Êı
+        #è°ƒç”¨çˆ¶ç±»å³QWidget,Ui_Formçš„æ„é€ å‡½æ•°
         super(mysecond, self).__init__()
 
-        #°ó¶¨UI½çÃæ
+        #ç»‘å®šUIç•Œé¢
         self.setupUi(self)
 
-        #°ó¶¨ĞÅºÅµ½²Ûº¯Êı
+        #ç»‘å®šä¿¡å·åˆ°æ§½å‡½æ•°
 
         self.duru.clicked.connect(self.openimage)
         self.erzhitu22.clicked.connect(self.erzhitu)
@@ -49,7 +50,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         self.comboBox.activated['QString'].connect(self.onActivated)
 
 
-    # ¶¨Òå²Ûº¯Êı
+    # å®šä¹‰æ§½å‡½æ•°
 
     def shurubeishu(self,text):
         global imgName
@@ -73,7 +74,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         path = imgName
         if text=='':
            im = Image.open(path)
-           # Ö¸¶¨ÄæÊ±ÕëĞı×ªµÄ½Ç¶È
+           # æŒ‡å®šé€†æ—¶é’ˆæ—‹è½¬çš„è§’åº¦
            im_rotate = im.rotate(45)
            im_rotate.save('D:\\huidu.png')
            png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
@@ -82,7 +83,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
             print("ssss")
             num=int(text)
             im = Image.open(path)
-            # Ö¸¶¨ÄæÊ±ÕëĞı×ªµÄ½Ç¶È
+            # æŒ‡å®šé€†æ—¶é’ˆæ—‹è½¬çš„è§’åº¦
             im_rotate = im.rotate(num)
             im_rotate.save('D:\\huidu.png')
             png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
@@ -127,21 +128,21 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
     def onActivated(self, text):
          global imgName
          path = imgName
-         if text=='·Å´ó':
+         if text=='æ”¾å¤§':
              print("wo shi comboBox de text")
              im = Image.open(path)
              im_resized2 = im.resize((800, 800))
              im_resized2.save('D:\\huidu.png')
              png = QtGui.QPixmap('D:\\huidu.png')
              self.label_3.setPixmap(png)
-         elif text=='ËõĞ¡':
+         elif text=='ç¼©å°':
              print("wo shi comboBox de text")
              im = Image.open(path)
              im_resized2 = im.resize((100, 100))
              im_resized2.save('D:\\huidu.png')
              png = QtGui.QPixmap('D:\\huidu.png')
              self.label_3.setPixmap(png)
-         elif text =='¾µÏñ':
+         elif text =='é•œåƒ':
              im = Image.open(path)
              rorate3 = im.transpose((Image.FLIP_LEFT_RIGHT))
              rorate3.save('D:\\huidu.png')
@@ -163,14 +164,14 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         path = imgName
         if text=='':
             img = np.array(Image.open(path))
-            # Ëæ»úÉú³É5000¸ö½·ÑÎ
+            # éšæœºç”Ÿæˆ5000ä¸ªæ¤’ç›
             rows, cols, dims = img.shape
             for i in range(0):
                 x = np.random.randint(0, rows)
                 y = np.random.randint(0, cols)
                 img[x, y, :] = 255
 
-            plt.axis('off')  # ²»ÏÔÊ¾×ø±êÖá
+            plt.axis('off')  # ä¸æ˜¾ç¤ºåæ ‡è½´
             plt.imshow(img)
             plt.savefig('D:\\huidu.png', transparent=True)
 
@@ -179,14 +180,14 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         else:
             num=int(text)
             img = np.array(Image.open(path))
-            # Ëæ»úÉú³É5000¸ö½·ÑÎ
+            # éšæœºç”Ÿæˆ5000ä¸ªæ¤’ç›
             rows, cols, dims = img.shape
             for i in range(num):
                 x = np.random.randint(0, rows)
                 y = np.random.randint(0, cols)
                 img[x, y, :] = 255
 
-            plt.axis('off')  # ²»ÏÔÊ¾×ø±êÖá
+            plt.axis('off')  # ä¸æ˜¾ç¤ºåæ ‡è½´
             plt.imshow(img)
             plt.savefig('D:\\huidu.png', transparent=True)
 
@@ -199,7 +200,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         global imgName
         path = imgName
         if value == 0:
-            # ´ò¿ªÍ¼Æ¬±ä×ª»»³ÉÊı×é
+            # æ‰“å¼€å›¾ç‰‡å˜è½¬æ¢æˆæ•°ç»„
             img = np.array(Image.open(path).convert('L'))
 
             rows, cols = img.shape
@@ -215,7 +216,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
             png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
             self.label_3.setPixmap(png)
         elif value > 0 and value <= 50:
-            # ´ò¿ªÍ¼Æ¬±ä×ª»»³ÉÊı×é
+            # æ‰“å¼€å›¾ç‰‡å˜è½¬æ¢æˆæ•°ç»„
             img = np.array(Image.open(path).convert('L'))
 
             rows, cols = img.shape
@@ -231,7 +232,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
             png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
             self.label_3.setPixmap(png)
         else:
-            # ´ò¿ªÍ¼Æ¬±ä×ª»»³ÉÊı×é
+            # æ‰“å¼€å›¾ç‰‡å˜è½¬æ¢æˆæ•°ç»„
             img = np.array(Image.open(path).convert('L'))
 
             rows, cols = img.shape
@@ -253,14 +254,14 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         if value == 0:
 
             img = np.array(Image.open(path))
-            # Ëæ»úÉú³É5000¸ö½·ÑÎ
+            # éšæœºç”Ÿæˆ5000ä¸ªæ¤’ç›
             rows, cols, dims = img.shape
             for i in range(1000):
                 x = np.random.randint(0, rows)
                 y = np.random.randint(0, cols)
                 img[x, y, :] = 255
 
-            plt.axis('off')  # ²»ÏÔÊ¾×ø±êÖá
+            plt.axis('off')  # ä¸æ˜¾ç¤ºåæ ‡è½´
             plt.imshow(img)
             plt.savefig('D:\\huidu.png')
 
@@ -269,14 +270,14 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         elif value ==50:
 
             img = np.array(Image.open(path))
-            # Ëæ»úÉú³É10000¸ö½·ÑÎ
+            # éšæœºç”Ÿæˆ10000ä¸ªæ¤’ç›
             rows, cols, dims = img.shape
             for i in range(5000):
                 x = np.random.randint(0, rows)
                 y = np.random.randint(0, cols)
                 img[x, y, :] = 255
 
-            plt.axis('off')  # ²»ÏÔÊ¾×ø±êÖá
+            plt.axis('off')  # ä¸æ˜¾ç¤ºåæ ‡è½´
             plt.imshow(img)
             plt.savefig('D:\\huidu.png')
 
@@ -286,14 +287,14 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         else:
 
             img = np.array(Image.open(path))
-            # Ëæ»úÉú³É300000¸ö½·ÑÎ
+            # éšæœºç”Ÿæˆ300000ä¸ªæ¤’ç›
             rows, cols, dims = img.shape
             for i in range(10000):
                 x = np.random.randint(0, rows)
                 y = np.random.randint(0, cols)
                 img[x, y, :] = 255
 
-            plt.axis('off')  # ²»ÏÔÊ¾×ø±êÖá
+            plt.axis('off')  # ä¸æ˜¾ç¤ºåæ ‡è½´
             plt.imshow(img)
             plt.savefig('D:\\huidu.png')
 
@@ -301,9 +302,9 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
             self.label_3.setPixmap(png)
 
     def huidu(self):
-        #´Ë´¦ÒıÓÃÈ«¾Ö±äÁ¿--Í¼Æ¬Â·¾¶£¬ĞèÒªÔÚÇ°Ãæ¼Óglobal±íÊ¾ÒıÓÃÈ«¾Ö±äÁ¿
+        #æ­¤å¤„å¼•ç”¨å…¨å±€å˜é‡--å›¾ç‰‡è·¯å¾„ï¼Œéœ€è¦åœ¨å‰é¢åŠ globalè¡¨ç¤ºå¼•ç”¨å…¨å±€å˜é‡
         global imgName
-        #Í¨¹ıconvert£¨¡®L¡¯£©µÄ·½·¨×ª»»³É»Ò¶ÈÍ¼Ïñ
+        #é€šè¿‡convertï¼ˆâ€˜Lâ€™ï¼‰çš„æ–¹æ³•è½¬æ¢æˆç°åº¦å›¾åƒ
         # im = Image.open(imgName).convert('L')
         # im = ImageQt(im)
         # png = QtGui.QPixmap.fromImage(im).scaled(self.label_3.width(), self.label_3.height())
@@ -321,19 +322,19 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         self.label_3.setPixmap(png)
 
     def openimage(self):
-        # ´ò¿ªÎÄ¼şÂ·¾¶
-        # ÉèÖÃÎÄ¼şÀ©Õ¹Ãû¹ıÂË,×¢ÒâÓÃË«·ÖºÅ¼ä¸ô
+        # æ‰“å¼€æ–‡ä»¶è·¯å¾„
+        # è®¾ç½®æ–‡ä»¶æ‰©å±•åè¿‡æ»¤,æ³¨æ„ç”¨åŒåˆ†å·é—´éš”
         global imgName
-        imgName, img_type = QFileDialog.getOpenFileName(self, "´ò¿ªÍ¼Æ¬", ""," *.jpg;;*.png;;*.jpeg;;*.bmp;;All Files (*)")
-        # ÀûÓÃqlabelÏÔÊ¾Í¼Æ¬
+        imgName, img_type = QFileDialog.getOpenFileName(self, "æ‰“å¼€å›¾ç‰‡", ""," *.jpg;;*.png;;*.jpeg;;*.bmp;;All Files (*)")
+        # åˆ©ç”¨qlabelæ˜¾ç¤ºå›¾ç‰‡
         png = QtGui.QPixmap(imgName).scaled(self.label.width(), self.label.height())
         self.label.setPixmap(png)
 
     def erzhitu(self):
-        #´Ë´¦ÒıÓÃÈ«¾Ö±äÁ¿--Í¼Æ¬Â·¾¶£¬ĞèÒªÔÚÇ°Ãæ¼Óglobal±íÊ¾ÒıÓÃÈ«¾Ö±äÁ¿
+        #æ­¤å¤„å¼•ç”¨å…¨å±€å˜é‡--å›¾ç‰‡è·¯å¾„ï¼Œéœ€è¦åœ¨å‰é¢åŠ globalè¡¨ç¤ºå¼•ç”¨å…¨å±€å˜é‡
         global imgName
         path = imgName
-        #´ò¿ªÍ¼Æ¬±ä×ª»»³ÉÊı×é
+        #æ‰“å¼€å›¾ç‰‡å˜è½¬æ¢æˆæ•°ç»„
         img = np.array(Image.open(path).convert('L'))
 
         rows, cols = img.shape
@@ -356,14 +357,14 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         global imgName
         path = imgName
         img = np.array(Image.open(path))
-        # Ëæ»úÉú³É30000¸ö½·ÑÎ
+        # éšæœºç”Ÿæˆ30000ä¸ªæ¤’ç›
         rows, cols, dims = img.shape
         for i in range(5000):
             x = np.random.randint(0, rows)
             y = np.random.randint(0, cols)
             img[x, y, :] = 255
 
-        plt.axis('off')#²»ÏÔÊ¾×ø±êÖá
+        plt.axis('off')#ä¸æ˜¾ç¤ºåæ ‡è½´
         plt.imshow(img)
         plt.savefig('D:\\huidu.png')
         png = QtGui.QPixmap('D:\\huidu.png').scaled(self.label_3.width(), self.label_3.height())
@@ -372,7 +373,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
     def quzao(self):
         global imgName
         path = imgName
-        # ÖĞÖµÂË²¨Æ÷
+        # ä¸­å€¼æ»¤æ³¢å™¨
         def medium_filter(im, x, y, step):
             sum_s = []
             for k in range(-int(step / 2), int(step / 2) + 1):
@@ -380,7 +381,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
                     sum_s.append(im[x + k][y + m])
             sum_s.sort()
             return sum_s[(int(step * step / 2) + 1)]
-        # ¾ùÖµÂË²¨Æ÷
+        # å‡å€¼æ»¤æ³¢å™¨
         def mean_filter(im, x, y, step):
             sum_s = 0
             for k in range(-int(step / 2), int(step / 2) + 1):
@@ -413,7 +414,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
         Grey_gs = Grey_gs * 255 / np.max(Grey_gs)
         Grey_gs = Grey_gs.astype(np.uint8)
 
-        # ÖĞÖµÂË²¨
+        # ä¸­å€¼æ»¤æ³¢
         Grey_sp_mf = scipy.ndimage.median_filter(Grey_sp, (10, 10))
         plt.imshow(Grey_sp_mf, cmap='gray')
         plt.savefig('D:\\huidu.png')
@@ -424,7 +425,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
     def gaosizaoshen(self):
         global imgName
         path = imgName
-        # ÖĞÖµÂË²¨Æ÷
+        # ä¸­å€¼æ»¤æ³¢å™¨
         def medium_filter(im, x, y, step):
             sum_s = []
             for k in range(-int(step / 2), int(step / 2) + 1):
@@ -433,7 +434,7 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
             sum_s.sort()
             return sum_s[(int(step * step / 2) + 1)]
 
-        # ¾ùÖµÂË²¨Æ÷
+        # å‡å€¼æ»¤æ³¢å™¨
         def mean_filter(im, x, y, step):
             sum_s = 0
             for k in range(-int(step / 2), int(step / 2) + 1):
@@ -441,14 +442,14 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
                     sum_s += im[x + k][y + m] / (step * step)
             return sum_s
 
-        # ¶şÎ¬×ª»»
+        # äºŒç»´è½¬æ¢
         def convert_2d(r):
             n = 3
-            # 3*3 ÂË²¨Æ÷, Ã¿¸öÏµÊı¶¼ÊÇ 1/9
+            # 3*3 æ»¤æ³¢å™¨, æ¯ä¸ªç³»æ•°éƒ½æ˜¯ 1/9
             window = np.ones((n, n)) / n ** 2
-            # Ê¹ÓÃÂË²¨Æ÷¾í»ıÍ¼Ïñ
-            # mode = same ±íÊ¾Êä³ö³ß´çµÈÓÚÊäÈë³ß´ç
-            # boundary ±íÊ¾²ÉÓÃ¶Ô³Æ±ß½çÌõ¼ş´¦ÀíÍ¼Ïñ±ßÔµ
+            # ä½¿ç”¨æ»¤æ³¢å™¨å·ç§¯å›¾åƒ
+            # mode = same è¡¨ç¤ºè¾“å‡ºå°ºå¯¸ç­‰äºè¾“å…¥å°ºå¯¸
+            # boundary è¡¨ç¤ºé‡‡ç”¨å¯¹ç§°è¾¹ç•Œæ¡ä»¶å¤„ç†å›¾åƒè¾¹ç¼˜
             s = scipy.signal.convolve2d(r, window, mode='same', boundary='symm')
             return s.astype(np.uint8)
 
@@ -487,35 +488,35 @@ class  mysecond(QtWidgets.QWidget,Ui_Form):
     def bianyuantiqi(self):
         global imgName
         path = imgName
-        # Éú³É¸ßË¹Ëã×ÓµÄº¯Êı
+        # ç”Ÿæˆé«˜æ–¯ç®—å­çš„å‡½æ•°
         def func(x, y, sigma=1):
             return 100 * (1 / (2 * np.pi * sigma)) * np.exp(-((x - 2) ** 2 + (y - 2) ** 2) / (2.0 * sigma ** 2))
 
-        # Éú³É±ê×¼²îÎª5µÄ5*5¸ßË¹Ëã×Ó
+        # ç”Ÿæˆæ ‡å‡†å·®ä¸º5çš„5*5é«˜æ–¯ç®—å­
         suanzi1 = np.fromfunction(func, (5, 5), sigma=5)
 
-        # LaplaceÀ©Õ¹Ëã×Ó
+        # Laplaceæ‰©å±•ç®—å­
         suanzi2 = np.array([[1, 1, 1],
                             [1, -8, 1],
                             [1, 1, 1]])
 
-        # ´ò¿ªÍ¼Ïñ²¢×ª»¯³É»Ò¶ÈÍ¼Ïñ
+        # æ‰“å¼€å›¾åƒå¹¶è½¬åŒ–æˆç°åº¦å›¾åƒ
         image = Image.open(path).convert("L")
         image_array = np.array(image)
 
-        # ÀûÓÃÉú³ÉµÄ¸ßË¹Ëã×ÓÓëÔ­Í¼Ïñ½øĞĞ¾í»ı¶ÔÍ¼Ïñ½øĞĞÆ½»¬´¦Àí
+        # åˆ©ç”¨ç”Ÿæˆçš„é«˜æ–¯ç®—å­ä¸åŸå›¾åƒè¿›è¡Œå·ç§¯å¯¹å›¾åƒè¿›è¡Œå¹³æ»‘å¤„ç†
         image_blur = signal.convolve2d(image_array, suanzi1, mode="same")
 
-        # ¶ÔÆ½»¬ºóµÄÍ¼Ïñ½øĞĞ±ßÔµ¼ì²â
+        # å¯¹å¹³æ»‘åçš„å›¾åƒè¿›è¡Œè¾¹ç¼˜æ£€æµ‹
         image2 = signal.convolve2d(image_blur, suanzi2, mode="same")
 
-        # ½á¹û×ª»¯µ½0-255
+        # ç»“æœè½¬åŒ–åˆ°0-255
         image2 = (image2 / float(image2.max())) * 255
 
-        # ½«´óÓÚ»Ò¶ÈÆ½¾ùÖµµÄ»Ò¶ÈÖµ±ä³É255£¨°×É«£©£¬±ãÓÚ¹Û²ì±ßÔµ
+        # å°†å¤§äºç°åº¦å¹³å‡å€¼çš„ç°åº¦å€¼å˜æˆ255ï¼ˆç™½è‰²ï¼‰ï¼Œä¾¿äºè§‚å¯Ÿè¾¹ç¼˜
         image2[image2 > image2.mean()] = 255
 
-        # ÏÔÊ¾Í¼Ïñ
+        # æ˜¾ç¤ºå›¾åƒ
 
         plt.imshow(image2, cmap=cm.gray)
         plt.axis("off")
