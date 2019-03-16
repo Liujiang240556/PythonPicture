@@ -1,0 +1,12 @@
+这个项目是用python做的一个图形处理界面，包括最常见的图形处理。如图片灰度，图片放大缩小。
+1.下载Pycharm软件
+2.在Pycharm软件中安装Qtdesigner插件
+3.在Pycharm软件中安装UitoPy插件
+安装过程请百度
+4.用Qtdesigner插件打开second.ui文件，可以查看和更改页面的布局
+5.在Pycharm中新建一个python文件，复制secondtest文件的内容
+6.点击运行
+7.请参考插件图片和Qtdesigner图片
+
+
+
